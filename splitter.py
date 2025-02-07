@@ -16,4 +16,4 @@ def split_documents (documents: list[Document]):
         raise
 # documents = load_documents()
 # chunks = split_documents(documents)
-# print(chunks)
+# print(chunks[25])

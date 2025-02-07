@@ -106,7 +106,7 @@ if uploaded_files:
 
 # Create a form for user query input
 with st.form("user_query_input",enter_to_submit=False):
-    query = st.text_area("Enter Your Question:")
+    query = st.text_area("Enter Your Question:",height=250)
     col1,col2 = st.columns(2)
     
     
@@ -122,23 +122,29 @@ with st.form("user_query_input",enter_to_submit=False):
             "Choose the AI Model",
             ("LLAMA 3.3 API","LLAMA3.2")
         )
-    # Add a button to submit the query
-    if st.form_submit_button("Query with Selected Files🤖"): 
-        if binary_semaphore:
-            take_semaphore()
-            # Check if there is files selected
-            if  selected_files:
-                # Query the database using RAG (Retrieval-Augmented Generation)
-                response, sources = query_rag(query,selected_files,num_questions,ai_selector,embModel)
-                st.write(response)  # Display the response from the query
-                st.balloons()
-                # Display the sources of the response
-                st.write("Sources📖:")
-                cleaned_source = "\n".join(sorted(set([reference[15:-2].replace(":", " | Page ") for reference in sources])))
-                st.text(cleaned_source)  # Display cleaned and formatted sources
-                release_semaphore()
-                
+        
+    col3,col4 = st.columns(2)
+    with col3:
+        # Add a button to submit the query
+        if st.form_submit_button("Query with Selected Files🤖"): 
+            if binary_semaphore:
+                take_semaphore()
+                # Check if there is files selected
+                if  selected_files:
+                    # Query the database using RAG (Retrieval-Augmented Generation)
+                    response, sources = query_rag(query,selected_files,num_questions,ai_selector,embModel)
+                    st.write(response)  # Display the response from the query
+                    st.balloons()
+                    # Display the sources of the response
+                    st.write("Sources📖:")
+                    cleaned_source = "\n".join(sorted(set([reference[15:-2].replace(":", " | Page ") for reference in sources])))
+                    st.text(cleaned_source)  # Display cleaned and formatted sources
+                    release_semaphore()
+                    
+                else:
+                    st.warning("Select a File to Search!")
             else:
-                st.warning("Select a File to Search!")
-        else:
-            st.warning("AI🤖 is already running!")
+                st.warning("AI🤖 is already running!")
+    with col4:
+        if st.form_submit_button("Print Document"):
+            pass

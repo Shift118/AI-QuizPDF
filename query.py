@@ -33,8 +33,8 @@ PROMPT_TEMPLATE = """
     - Generate exactly {num_questions} questions for each of the given topics.
 
     Example:
-    Question: Explain the key difference between dynamic and static testing.
-    Answer: Dynamic testing involves executing the software to observe its behavior, while static testing analyzes the code and documentation without running the software.
+    1-Question: Explain the key difference between dynamic and static testing.
+    \nAnswer: Dynamic testing involves executing the software to observe its behavior, while static testing analyzes the code and documentation without running the software.
 
     Provide the response in a structured format suitable for direct inclusion in a Microsoft Word document.
     """
@@ -71,7 +71,7 @@ def query_rag(query_text: str,selected_files, num_questions,ai_selector,EmbModel
             num_thread= 3,
             temperature=0
             )
-        response_text = model.invoke(prompt).replace("Answer","\nAnswer")
+        response_text = model.invoke(prompt)
     elif ai_selector == "LLAMA 3.3 API":
         client = ChatCompletionsClient(
             endpoint=endpoint,
