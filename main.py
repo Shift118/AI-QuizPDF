@@ -80,7 +80,7 @@ uploaded_files = st.file_uploader(
 )
 embModel = st.selectbox(
             "Choose the Emb Model",
-            ("Nomic-Embed-Text", "Gemini API")
+            ("Gemini API","Nomic-Embed-Text")
         )
 # Process uploaded files if any exist
 if uploaded_files:
@@ -120,7 +120,7 @@ with st.form("user_query_input",enter_to_submit=False):
     with col2:
         ai_selector = st.selectbox(
             "Choose the AI Model",
-            ("LLAMA3.2", "LLAMA 3.3 API")
+            ("LLAMA 3.3 API","LLAMA3.2")
         )
     # Add a button to submit the query
     if st.form_submit_button("Query with Selected Files🤖"): 
