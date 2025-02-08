@@ -5,6 +5,7 @@ from query import query_rag
 import streamlit as st
 import os
 import torch
+import streamlit_ext as ste
 
 torch.classes.__path__ = []
 selected_files = []
@@ -34,7 +35,9 @@ existing_files = []
 st.title("Quiz PDF")
 
 
-
+# Initialize session state for download button data
+if "response" not in st.session_state:
+    st.session_state.response = ""
 # Initialize session state for the file uploader key if not already present
 if "uploader_key" not in st.session_state:
     st.session_state.uploader_key = 0
@@ -122,7 +125,6 @@ with st.form("user_query_input",enter_to_submit=False):
             "Choose the AI Model",
             ("LLAMA 3.3 API","LLAMA3.2")
         )
-        
     col3,col4 = st.columns(2)
     with col3:
         # Add a button to submit the query
@@ -133,18 +135,22 @@ with st.form("user_query_input",enter_to_submit=False):
                 if  selected_files:
                     # Query the database using RAG (Retrieval-Augmented Generation)
                     response, sources = query_rag(query,selected_files,num_questions,ai_selector,embModel)
+                    st.session_state.response = response
                     st.write(response)  # Display the response from the query
                     st.balloons()
                     # Display the sources of the response
                     st.write("Sources📖:")
                     cleaned_source = "\n".join(sorted(set([reference[15:-2].replace(":", " | Page ") for reference in sources])))
-                    st.text(cleaned_source)  # Display cleaned and formatted sources
+                    st.text(cleaned_source)  # Display cleaned
                     release_semaphore()
-                    
                 else:
                     st.warning("Select a File to Search!")
             else:
                 st.warning("AI🤖 is already running!")
     with col4:
-        if st.form_submit_button("Print Document"):
-            pass
+        if st.session_state.response != "":
+            ste.download_button(
+                "Download Response🎈",
+                data=st.session_state.response,
+                file_name="Quiz.txt",
+                custom_css="background-color: rgb(19, 23, 32);color: rgb(250, 250, 250);border: 1px solid rgba(250, 250, 250, 0.2);")
