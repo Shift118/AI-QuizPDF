@@ -8,10 +8,12 @@ import torch
 import streamlit_ext as ste
 import re
 
+# To clear the torch warning as it is downloaded
 torch.classes.__path__ = []
+# Selected files array
 selected_files = []
+#Using semaphore to not request the api multiple of times while running
 binary_semaphore = 1
-
 
 def take_semaphore():
     global binary_semaphore
@@ -37,6 +39,7 @@ st.title("Quiz PDF")
 
 
 # Initialize session state for download button data
+# Saving the Response
 if "response" not in st.session_state:
     st.session_state.response = ""
 # Initialize session state for the file uploader key if not already present
@@ -84,6 +87,8 @@ uploaded_files = st.file_uploader(
     accept_multiple_files=True,
     key=f"uploader_{st.session_state.uploader_key}",
 )
+
+#Select the Embedding model for the Embedding process
 embModel = st.selectbox("Choose the Emb Model", ("Gemini API", "Nomic-Embed-Text"))
 # Process uploaded files if any exist
 if uploaded_files:
@@ -120,6 +125,7 @@ with st.form("user_query_input", enter_to_submit=False):
             min_value=1,
         )
     with col2:
+        #Select the Ai that is going to Respond
         ai_selector = st.selectbox("Choose the AI Model", ("LLAMA 3.3 API", "LLAMA3.2"))
     col3, col4 = st.columns([0.8, 0.2])
     with col3:
@@ -139,6 +145,7 @@ with st.form("user_query_input", enter_to_submit=False):
                     # Display the sources of the response
                     st.write("Sources📖:")
                     
+                    #Searching for the require part of the sources that is going to be printed and formatting it
                     cleaned_source = "\n".join(
                         sorted(
                             set(
@@ -159,6 +166,7 @@ with st.form("user_query_input", enter_to_submit=False):
             else:
                 st.warning("AI🤖 is already running!")
     with col4:
+        #Checks if there is Response to download
         if st.session_state.response != "":
             ste.download_button(
                 "Download🎈",
