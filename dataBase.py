@@ -5,12 +5,13 @@ from langchain.schema.document import Document
 
 CHROMA_PATH = "chroma"
 
+
 # Storing information using embeddings "vector" as a key
-def add_to_chroma(chunks: list[Document],EmbModel):
+def add_to_chroma(chunks: list[Document], EmbModel):
     # Load the existing DB
     db = Chroma(
         persist_directory=CHROMA_PATH,
-        embedding_function=get_embedding_function(EmbModel)
+        embedding_function=get_embedding_function(EmbModel),
     )
     db._client._system.start()
     try:
@@ -26,7 +27,6 @@ def add_to_chroma(chunks: list[Document],EmbModel):
         for chunk in chunks_with_ids:
             if chunk.metadata["id"] not in existing_ids:
                 new_chunks.append(chunk)
-                
 
         if len(new_chunks):
             print(f"👉 Adding new documents: {len(new_chunks)}")
@@ -38,9 +38,10 @@ def add_to_chroma(chunks: list[Document],EmbModel):
     finally:
         db._client._system.stop()
 
+
 def calculate_chunk_ids(chunks):
-    #This will create IDs like "data\\books\\file.pdf:0:0"
-    #Page Source : Page Number : Chunk Index
+    # This will create IDs like "data\\books\\file.pdf:0:0"
+    # Page Source : Page Number : Chunk Index
     last_page_id = None
     current_chunk_index = 0
 
@@ -63,18 +64,16 @@ def calculate_chunk_ids(chunks):
         chunk.metadata["id"] = chunk_id
     return chunks
 
+
 def clear_database(selected_files):
     try:
         # Initialize Chroma instance
-        db = Chroma(
-            persist_directory=CHROMA_PATH,
-            embedding_function=None
-        )
+        db = Chroma(persist_directory=CHROMA_PATH, embedding_function=None)
         db._client._system.start()
-        
+
         # Construct the list of source paths to match
         files_paths = [f"Data\\Documents\\{name}" for name in selected_files]
-        
+
         # Delete documents where the "source" metadata matches any of the selected files
         db.delete(
             where={  # Filter by metadata
@@ -83,8 +82,10 @@ def clear_database(selected_files):
                 }
             }
         )
-        
-        print(f"✅ Documents from selected files deleted successfully: \n{"\n".join(selected_files)}")
+
+        print(
+            f"✅ Documents from selected files deleted successfully: \n{"\n".join(selected_files)}"
+        )
     except Exception as e:
         print(f"❌ Error clearing database: {e}")
     finally:
