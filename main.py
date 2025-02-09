@@ -87,6 +87,14 @@ uploaded_files = st.file_uploader(
     accept_multiple_files=True,
     key=f"uploader_{st.session_state.uploader_key}",
 )
+with st.sidebar:
+    "___________________________________________________________"
+    "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
+    "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
+    "[Get an Gemini API key](https://aistudio.google.com/apikey)"
+    "[View the source code](https://github.com/)"
+    "Website needs to run you to create a"
+
 
 #Select the Embedding model for the Embedding process
 embModel = st.selectbox("Choose the Emb Model", ("Gemini API", "Nomic-Embed-Text"))
