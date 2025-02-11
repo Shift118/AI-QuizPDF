@@ -89,11 +89,9 @@ uploaded_files = st.file_uploader(
 )
 with st.sidebar:
     "___________________________________________________________"
-    "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
+    "[![Open in GitHub](https://github.com/codespaces/badge.svg)](https://github.com/Shift118/AI-QuizPDF.git)"
     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
     "[Get an Gemini API key](https://aistudio.google.com/apikey)"
-    "[View the source code](https://github.com/)"
-    "Website needs to run you to create a"
 
 
 #Select the Embedding model for the Embedding process
@@ -161,7 +159,7 @@ with st.form("user_query_input", enter_to_submit=False):
                                     match.group()
                                     .replace(":", " | Page ")
                                     for reference in sources
-                                    if (match := re.search("[\w+.\s]*:\d(?=:)", reference))
+                                    if (match := re.search(r"[\w+.\s]*:\d(?=:)", reference))
                                 ]
                             )
                         )

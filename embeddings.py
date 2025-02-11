@@ -1,11 +1,6 @@
 from langchain_ollama import OllamaEmbeddings
 import google.generativeai as genai
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
+import streamlit as st
 
 def get_embedding_function(EmbModel: str):
     if EmbModel == "Gemini API":
@@ -36,7 +31,7 @@ def get_embedding_function(EmbModel: str):
                 # Extract the embedding from the dictionary
                 return result["embedding"]  # Access the 'embedding' key
 
-        return GeminiEmbeddings(api_key=GEMINI_API_KEY)
+        return GeminiEmbeddings(api_key=st.secrets["APIs"]["GEMINI_API_KEY"])
 
     if EmbModel == "Nomic-Embed-Text":
         return OllamaEmbeddings(model="nomic-embed-text", num_thread=3)

@@ -2,17 +2,13 @@ from embeddings import get_embedding_function
 from langchain_chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
 from langchain_ollama.llms import OllamaLLM
-import os
 from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import UserMessage
 from azure.core.credentials import AzureKeyCredential
-from dotenv import load_dotenv
-
-load_dotenv()
+import streamlit as st
 
 endpoint = "https://models.inference.ai.azure.com"
 model_name = "Llama-3.3-70B-Instruct"
-token = os.environ["GITHUB_TOKEN"]
 
 CHROMA_PATH = "chroma"
 PROMPT_TEMPLATE = """
@@ -62,7 +58,7 @@ def query_rag(query_text: str, selected_files, num_questions, ai_selector, EmbMo
     elif ai_selector == "LLAMA 3.3 API":
         client = ChatCompletionsClient(
             endpoint=endpoint,
-            credential=AzureKeyCredential(token),
+            credential=AzureKeyCredential(st.secrets["APIs"]["GITHUB_TOKEN"]),
         )
         response = client.complete(
             messages=[UserMessage(content=prompt)], temperature=0, model=model_name
