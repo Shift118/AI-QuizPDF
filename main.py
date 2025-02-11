@@ -92,6 +92,7 @@ with st.sidebar:
     "[![Open in GitHub](https://github.com/codespaces/badge.svg)](https://github.com/Shift118/AI-QuizPDF.git)"
     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
     "[Get an Gemini API key](https://aistudio.google.com/apikey)"
+    "Note That Gemini API uses the data uploaded to improve their AI"
 
 
 #Select the Embedding model for the Embedding process
