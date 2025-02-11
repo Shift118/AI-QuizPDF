@@ -89,7 +89,7 @@ uploaded_files = st.file_uploader(
 )
 with st.sidebar:
     "___________________________________________________________"
-    "[![Open in GitHub](https://github.com/codespaces/badge.svg)](https://github.com/Shift118/AI-QuizPDF.git)"
+    "[![Open in GitHub](https://img.shields.io/badge/Open%20in-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/Shift118/AI-QuizPDF.git)"
     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
     "[Get an Gemini API key](https://aistudio.google.com/apikey)"
     "Note That Gemini API uses the data uploaded to improve their AI"
