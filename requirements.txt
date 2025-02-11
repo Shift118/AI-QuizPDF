@@ -153,7 +153,6 @@ python-dateutil==2.9.0.post0
 python-docx==1.1.2
 python-iso639==2025.1.28
 python-magic==0.4.27
-python-magic-bin==0.4.14
 python-multipart==0.0.20
 python-oxmsg==0.0.2
 pytz==2025.1
